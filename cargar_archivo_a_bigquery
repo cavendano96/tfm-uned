@@ -1,0 +1,51 @@
+import functions_framework
+from google.cloud import bigquery
+
+# Parámetros del proyecto y dataset
+PROYECTO_ID = "carlos-avendano-sandbox"
+DATASET_ID = "sports_movements_dataset"
+
+@functions_framework.cloud_event
+def cargar_archivo_a_bigquery(evento_cloud):
+    """Función que se activa al subir un archivo a Cloud Storage. Carga CSV o AVRO en BigQuery."""
+    
+    datos = evento_cloud.data
+    nombre_bucket = datos["bucket"]
+    nombre_archivo = datos["name"]
+
+    # Solo procesar archivos CSV o AVRO, se podrían añadir más
+    if not (nombre_archivo.endswith(".csv") or nombre_archivo.endswith(".avro")):
+        print(f"Tipo de archivo no soportado: {nombre_archivo}")
+        return
+
+    cliente_bq = bigquery.Client()
+    nombre_tabla = nombre_archivo.rsplit(".", 1)[0].replace("-", "_")
+    tabla_completa = f"{PROYECTO_ID}.{DATASET_ID}.{nombre_tabla}"
+    uri_archivo = f"gs://{nombre_bucket}/{nombre_archivo}"
+
+    # Comprobamos si la tabla ya existe en BigQuery
+    try:
+        cliente_bq.get_table(tabla_completa)
+        print(f"La tabla {tabla_completa} ya existe. No se realiza carga.")
+        return
+    except Exception:
+        print(f"La tabla {tabla_completa} no existe. Se procede a crearla y cargar los datos.")
+
+    # Configurar el tipo de carga según el formato del archivo
+    if nombre_archivo.endswith(".csv"):
+        config_carga = bigquery.LoadJobConfig(
+            autodetect=True,
+            source_format=bigquery.SourceFormat.CSV,
+            skip_leading_rows=1  # Ignorar encabezado
+        )
+    elif nombre_archivo.endswith(".avro"):
+        config_carga = bigquery.LoadJobConfig(
+            source_format=bigquery.SourceFormat.AVRO,
+            autodetect=True
+        )
+
+    #Ejecutar la carga de datos
+    trabajo_carga = cliente_bq.load_table_from_uri(uri_archivo, tabla_completa, job_config=config_carga)
+    trabajo_carga.result()  
+
+    print(f"Archivo {nombre_archivo} cargado correctamente en la tabla {tabla_completa}.")
