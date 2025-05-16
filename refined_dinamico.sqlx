@@ -1,0 +1,45 @@
+
+config {
+  type: "table",
+  database: "carlos-avendano-sandbox",
+  schema: "sports_movements_dataset",
+  bigquery: {
+    partitionBy: "Kyu_Dan",
+    clusterBy: ["dojo"]
+  },
+  name: "${table_name}_refined",  // Nombre dinámico en función de la tabla origen
+  tags: [ "${table_name}"]  // Etiquetas dinámicas en función de la tabla origen
+}
+
+
+js {
+    const table_name = dataform.projectConfig.vars.table_name;
+}
+
+WITH norm_dojo AS (
+  SELECT *,
+    CASE
+      WHEN STARTS_WITH(Name, 'UA') THEN 'UA'  -- Excepciones a la regex
+      WHEN STARTS_WITH(Name, 'AikidoBudo') THEN 'AikidoBudo'
+      WHEN STARTS_WITH(Name, 'DeMaria') THEN 'DeMaria'
+      ELSE REGEXP_EXTRACT(
+        TRANSLATE(Name, 'ÁÉÍÓÚÜáéíóúüÑñ', 'AEIOUUaeiouuNn'),  -- Normalizo tildes y ñ
+        r'^([A-Z][a-z]+)'  -- Me quedo con la primera palabra (el dojo)
+      )
+    END AS dojo,
+
+    CASE  -- Clusterizo el expertise en 4 cuartiles
+      WHEN Kyu_Dan <= -2 THEN "Principiante"
+      WHEN Kyu_Dan <= 1 THEN "Intermedio"
+      WHEN Kyu_Dan <= 4 THEN "Veterano"
+      WHEN Kyu_Dan <= 7 THEN "Experto"
+      ELSE NULL
+    END AS nivel_expertise
+
+  FROM carlos-avendano-sandbox.sports_movements_dataset.${table_name} -- El origen de los datos cambia
+)
+
+SELECT * 
+FROM norm_dojo 
+LEFT JOIN carlos-avendano-sandbox.sports_movements_dataset.dojos_location dojos
+  ON norm_dojo.dojo = dojos.Nombre
