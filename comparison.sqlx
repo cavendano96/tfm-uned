@@ -1,0 +1,79 @@
+config {
+  type: "table",
+  database: "carlos-avendano-sandbox",
+  schema: "sports_movements_dataset",
+  bigquery: {
+    clusterBy: ["dojo_shikko","dojo_bokken"]
+  },
+  name: "comparison",
+  tags: ["bokken","shikko","sports"]
+}
+SELECT 
+
+--shikko 
+  shikko.Name AS Name_shikko,
+  shikko.Gender AS Gender_shikko,
+  shikko.Height AS Height_shikko,
+  shikko.Weight AS Weight_shikko,
+  shikko.Age AS Age_shikko,
+  shikko.Experience AS Experience_shikko,
+  shikko.Kyu_Dan AS Kyu_Dan_shikko,
+  shikko.Other AS Other_shikko,
+  shikko.dojo AS dojo_shikko,
+  shikko.nivel_expertise AS nivel_expertise_shikko,
+  shikko.Direcci__n AS Direccion_shikko,
+  shikko.Latitud AS Latitud_shikko,
+  shikko.Longitud AS Longitud_shikko,
+
+--bokken
+  bokken.Name AS Name_bokken,
+  bokken.Gender AS Gender_bokken,
+  bokken.Height AS Height_bokken,
+  bokken.Weight AS Weight_bokken,
+  bokken.Age AS Age_bokken,
+  bokken.Experience AS Experience_bokken,
+  bokken.Kyu_Dan AS Kyu_Dan_bokken,
+  bokken.dojo AS dojo_bokken,
+  bokken.nivel_expertise AS nivel_expertise_bokken,
+  bokken.Direcci__n AS Direccion_bokken,
+  bokken.Latitud AS Latitud_bokken,
+  bokken.Longitud AS Longitud_bokken,
+
+  case
+    when shikko.Name is null then "Solo bokken"
+    when bokken.Name is null then "Solo shikko"
+    when bokken.Name is not null and shikko.Name is not null then "Ambos"
+  end as presencia,
+
+  count( distinct shikko.Time) as capturas_shikko,
+  count( distinct bokken.Time) as capturas_bokken,
+
+  -- VAR_POP(shikko.Acc_X) AS var_accx_shikko,
+  -- VAR_POP(shikko.Acc_Y) AS var_accy_shikko,
+  -- VAR_POP(shikko.ACC_Z) AS var_accz_shikko,
+  -- STDDEV_POP(shikko.Acc_X) AS stddev_accx_shikko,
+  -- STDDEV_POP(shikko.Acc_Y) AS stddev_accy_shikko,
+  -- STDDEV_POP(shikko.ACC_Z) AS stddev_accz_shikko,
+  -- VAR_POP(SQRT(POW(Acc_X, 2) + POW(Acc_Y, 2) + POW(ACC_Z, 2))) AS var_magnitude_shikko,
+  STDDEV_POP(SQRT(POW(Acc_X, 2) + POW(Acc_Y, 2) + POW(ACC_Z, 2))) AS stddev_magnitude_shikko,
+
+
+  -- VAR_POP(bokken.ACCX_BOKKEN) AS var_accx_bokken,
+  -- VAR_POP(bokken.ACCY_BOKKEN) AS var_accy_bokken,
+  -- VAR_POP(bokken.ACCZ_BOKKEN) AS var_accz_bokken,
+  -- STDDEV_POP(bokken.ACCX_BOKKEN) AS stddev_accx_bokken,
+  -- STDDEV_POP(bokken.ACCY_BOKKEN) AS stddev_accy_bokken,
+  -- STDDEV_POP(bokken.ACCZ_BOKKEN) AS stddev_accz_bokken,
+  -- VAR_POP(SQRT(POW(ACCX_BOKKEN, 2) + POW(ACCY_BOKKEN, 2) + POW(ACCZ_BOKKEN, 2))) AS var_magnitude_bokken,
+  STDDEV_POP(SQRT(POW(ACCX_BOKKEN, 2) + POW(ACCY_BOKKEN, 2) + POW(ACCZ_BOKKEN, 2))) AS stddev_magnitude_bokken,
+
+
+
+from
+  ${ref("shikko_refined")} shikko
+FULL OUTER JOIN
+  ${ref("bokken_refined")}  bokken
+ON
+  shikko.Name = bokken.Name
+
+  group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26
