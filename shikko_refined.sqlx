@@ -1,0 +1,40 @@
+config {
+  type: "table",
+  database: "carlos-avendano-sandbox",
+  schema: "sports_movements_dataset",
+  bigquery: {
+     partitionBy: "RANGE_BUCKET(Kyu_Dan, GENERATE_ARRAY(-7, 7, 1))",
+    clusterBy: ["dojo"]
+  },
+  name: "shikko_refined",
+  tags: ["shikko","sports"]
+}
+
+WITH norm_dojo AS (
+  SELECT *,
+    CASE
+      WHEN STARTS_WITH(Name, 'UA') THEN 'UA'                  -- Excepciones a la regex (otra opcion es hardcodear los números)
+      WHEN STARTS_WITH(Name, 'AikidoBudo') THEN 'AikidoBudo'  
+      WHEN STARTS_WITH(Name, 'DeMaria') THEN 'DeMaria'   
+      ELSE REGEXP_EXTRACT(
+        TRANSLATE(Name, 'ÁÉÍÓÚÜáéíóúüÑñ', 'AEIOUUaeiouuNn'),  -- Normalizo tildes y ñ
+        r'^([A-Z][a-z]+)'                                     -- Me quedo con la primera palabra (el dojo)
+      )
+    END AS dojo,
+
+case                                                                  -- Clusterizo el expertise en 4 cuartiles
+when Kyu_Dan<= -2 then "Principiante"
+when Kyu_Dan<= 1 then "Intermedio" 
+when Kyu_Dan<= 4 then "Veterano"
+when Kyu_Dan<= 7 then "Experto"
+else null
+end as
+nivel_expertise
+  FROM ${ref("shikko")} 
+)
+
+select * except (Nombre)
+from norm_dojo
+left join
+${ref("dojos_location")} dojos -- cruce con el maaestro de dojos
+on norm_dojo.dojo = dojos.Nombre 
