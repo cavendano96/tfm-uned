@@ -1,0 +1,273 @@
+include: "/views/**/*.view.lkml"
+view: +comparison {
+
+  parameter: parametro_deporte {
+    type: unquoted
+    allowed_value: {
+      label: "Bokken"
+      value: "bokken"
+    }
+    allowed_value: {
+      label: "Shikko"
+      value: "shikko"
+    }
+  }
+
+  dimension: dynamic_age {
+     #required_access_grants: [access_test]
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${age_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${age_shikko}
+             {% else %}
+            ${age_shikko}
+          {% endif %};;
+  }
+
+  dimension: dynamic_gender {
+     #required_access_grants: [access_test]
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${gender_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${gender_shikko}
+             {% else %}
+            ${gender_shikko}
+          {% endif %};;
+  }
+  dimension: dynamic_capturas {
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${capturas_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${capturas_shikko}
+             {% else %}
+            ${capturas_shikko}
+          {% endif %};;
+  }
+  dimension: dynamic_direccion {
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${direccion_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${direccion_shikko}
+             {% else %}
+            ${direccion_shikko}
+          {% endif %};;
+  }
+  dimension: dynamic_dojo {
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${dojo_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${dojo_shikko}
+             {% else %}
+            ${dojo_shikko}
+          {% endif %};;
+  }
+  dimension: dynamic_kyu_dan {
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${kyu_dan_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${kyu_dan_shikko}
+             {% else %}
+            ${kyu_dan_shikko}
+          {% endif %};;
+  }
+  dimension: dynamic_gender {
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${latitud_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${latitud_shikko}
+             {% else %}
+            ${latitud_shikko}
+          {% endif %};;
+  }
+  dimension: dynamic_longitud {
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${longitud_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${longitud_shikko}
+             {% else %}
+            ${longitud_shikko}
+          {% endif %};;
+  }
+  dimension: dynamic_latitud {
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${latitud_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${latitud_shikko}
+             {% else %}
+            ${latitud_shikko}
+          {% endif %};;
+  }
+  dimension: dynamic_name {
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${name_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${name_shikko}
+             {% else %}
+            ${name_shikko}
+          {% endif %};;
+  }
+  dimension: dynamic_nivel_expertise {
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${nivel_expertise_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${nivel_expertise_shikko}
+             {% else %}
+            ${nivel_expertise_shikko}
+          {% endif %};;
+  }
+  dimension: dynamic_stddev_magnitude {
+    sql:
+          {% if parametro_deporte._parameter_value == 'bokken' %}
+            ${stddev_magnitude_bokken}
+          {% elsif parametro_deporte._parameter_value == 'shikko' %}
+            ${stddev_magnitude_shikko}
+             {% else %}
+            ${stddev_magnitude_shikko}
+          {% endif %};;
+  }
+
+
+
+
+  dimension: dif_kyu_dan {
+    type: number
+    sql: ${kyu_dan_bokken} - ${kyu_dan_shikko} ;;
+  }
+  measure: distinct_students_bokken {
+    type: count_distinct
+    sql: ${name_bokken} ;;
+  }
+
+  measure: distinct_students_shikko {
+    type: count_distinct
+    sql: ${name_shikko} ;;
+  }
+
+  measure: distinct_students_total {
+    type: sum
+    sql: case when ${presencia} = "Solo bokken" then ${name_bokken} else ${name_shikko};;
+  }
+  dimension: coordenadas_shikko {
+    type: location
+    sql_latitude: ${latitud_shikko} ;;
+    sql_longitude: ${longitud_shikko} ;;
+  }
+
+  dimension: coordenadas_bokken {
+    type: location
+    sql_latitude: ${latitud_bokken} ;;
+    sql_longitude: ${longitud_bokken} ;;
+  }
+
+dimension: coordenadas_final {
+  type: location
+  sql_latitude: case when ${presencia} = "Solo bokken" then ${latitud_bokken} else ${latitud_shikko} ;;
+  sql_longitude: case when ${presencia} = "Solo bokken" then ${longitud_bokken} else ${longitud_shikko} ;;
+
+}
+
+  dimension: expertise_final {
+    type: string
+sql: case when ${nivel_expertise_bokken} is not null then ${nivel_expertise_bokken} else ${nivel_expertise_shikko} end ;;
+
+  }
+
+  dimension: dojo_final {
+    type: string
+    sql: case when ${dojo_bokken} is not null then ${dojo_bokken} else ${dojo_shikko} end ;;
+
+  }
+
+  measure: avg_stddev_accx_bokken {
+    type: average
+    sql: ${stddev_accx_bokken} ;;
+  }
+
+  measure: avg_stddev_accx_shikko {
+    type: average
+    sql: ${stddev_accx_shikko} ;;
+  }
+
+  measure: avg_stddev_accy_bokken {
+    type: average
+    sql: ${stddev_accy_bokken} ;;
+  }
+
+  measure: avg_stddev_accy_shikko {
+    type: average
+    sql: ${stddev_accy_shikko} ;;
+  }
+
+  measure: avg_stddev_accz_bokken {
+    type: average
+    sql: ${stddev_accz_bokken} ;;
+  }
+
+  measure: avg_stddev_accz_shikko {
+    type: average
+    sql: ${stddev_accz_shikko} ;;
+  }
+
+  measure: avg_stddev_magnitude_bokken {
+    type: average
+    sql: ${stddev_magnitude_bokken} ;;
+  }
+
+  measure: avg_stddev_magnitude_shikko {
+    type: average
+    sql: ${stddev_magnitude_shikko} ;;
+  }
+
+# Varianzas - medidas promedio
+  measure: avg_var_accx_bokken {
+    type: average
+    sql: ${var_accx_bokken} ;;
+  }
+
+  measure: avg_var_accx_shikko {
+    type: average
+    sql: ${var_accx_shikko} ;;
+  }
+
+  measure: avg_var_accy_bokken {
+    type: average
+    sql: ${var_accy_bokken} ;;
+  }
+
+  measure: avg_var_accy_shikko {
+    type: average
+    sql: ${var_accy_shikko} ;;
+  }
+
+  measure: avg_var_accz_bokken {
+    type: average
+    sql: ${var_accz_bokken} ;;
+  }
+
+  measure: avg_var_accz_shikko {
+    type: average
+    sql: ${var_accz_shikko} ;;
+  }
+
+  measure: avg_var_magnitude_bokken {
+    type: average
+    sql: ${var_magnitude_bokken} ;;
+  }
+
+  measure: avg_var_magnitude_shikko {
+    type: average
+    sql: ${var_magnitude_shikko} ;;
+  }
+
+}
