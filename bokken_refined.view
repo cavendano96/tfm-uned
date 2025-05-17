@@ -1,0 +1,158 @@
+# The name of this view in Looker is "Bokken Refined"
+view: bokken_refined {
+  # The sql_table_name parameter indicates the underlying database table
+  # to be used for all fields in this view.
+  sql_table_name: `sports_movements_dataset.bokken_refined` ;;
+
+  # No primary key is defined for this view. In order to join this view in an Explore,
+  # define primary_key: yes on a dimension that has no repeated values.
+
+    # Here's what a typical dimension looks like in LookML.
+    # A dimension is a groupable field that can be used to filter query results.
+    # This dimension will be called "Accx Bokken" in Explore.
+
+  dimension: accx_bokken {
+    type: number
+    sql: ${TABLE}.ACCX_BOKKEN ;;
+  }
+
+  dimension: accy_bokken {
+    type: number
+    sql: ${TABLE}.ACCY_BOKKEN ;;
+  }
+
+  dimension: accz_bokken {
+    type: number
+    sql: ${TABLE}.ACCZ_BOKKEN ;;
+  }
+
+  dimension: age {
+    type: number
+    sql: ${TABLE}.Age ;;
+  }
+
+  dimension: arm {
+    type: number
+    sql: ${TABLE}.Arm ;;
+  }
+
+  dimension: bmi {
+    type: number
+    sql: ${TABLE}.BMI ;;
+  }
+
+  dimension: direcci__n {
+    type: string
+    sql: ${TABLE}.Direcci__n ;;
+  }
+
+  dimension: dojo {
+    type: string
+    sql: ${TABLE}.dojo ;;
+  }
+
+  dimension: experience {
+    type: number
+    sql: ${TABLE}.Experience ;;
+  }
+  # Dates and timestamps can be represented in Looker using a dimension group of type: time.
+  # Looker converts dates and timestamps to the specified timeframes within the dimension group.
+
+  dimension_group: fecha {
+    type: time
+    timeframes: [raw, date, week, month, quarter, year]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}.fecha ;;
+  }
+
+  dimension: forearm {
+    type: number
+    sql: ${TABLE}.Forearm ;;
+  }
+
+  dimension: gender {
+    type: string
+    sql: ${TABLE}.Gender ;;
+  }
+
+  dimension: height {
+    type: number
+    sql: ${TABLE}.Height ;;
+  }
+
+  dimension: kyu_dan {
+    type: number
+    sql: ${TABLE}.Kyu_Dan ;;
+  }
+
+  dimension: latitud {
+    type: number
+    sql: ${TABLE}.Latitud ;;
+  }
+
+  dimension: longitud {
+    type: number
+    sql: ${TABLE}.Longitud ;;
+  }
+
+  dimension: mod_acc {
+    type: number
+    sql: ${TABLE}.MOD_ACC ;;
+  }
+
+  dimension: movement {
+    type: string
+    sql: ${TABLE}.Movement ;;
+  }
+
+  dimension: name {
+    type: string
+    sql: ${TABLE}.Name ;;
+  }
+
+  dimension: nivel_expertise {
+    type: string
+    sql: ${TABLE}.nivel_expertise ;;
+  }
+
+  dimension: nombre {
+    type: string
+    sql: ${TABLE}.Nombre ;;
+  }
+
+  dimension: other {
+    type: string
+    sql: ${TABLE}.Other ;;
+  }
+
+  dimension: sample {
+    type: number
+    sql: ${TABLE}.Sample ;;
+  }
+
+  dimension: time {
+    type: number
+    sql: ${TABLE}.Time ;;
+  }
+
+  dimension_group: time_con_hora {
+    type: time
+    timeframes: [raw, time, date, week, month, quarter, year]
+    sql: ${TABLE}.time_con_hora ;;
+  }
+
+  dimension: type {
+    type: string
+    sql: ${TABLE}.Type ;;
+  }
+
+  dimension: weight {
+    type: number
+    sql: ${TABLE}.Weight ;;
+  }
+  measure: count {
+    type: count
+    drill_fields: [name]
+  }
+}
