@@ -1,0 +1,36 @@
+# The name of this view in Looker is "Dojos Location"
+view: dojos_location {
+  # The sql_table_name parameter indicates the underlying database table
+  # to be used for all fields in this view.
+  sql_table_name: `sports_movements_dataset.dojos_location` ;;
+
+  # No primary key is defined for this view. In order to join this view in an Explore,
+  # define primary_key: yes on a dimension that has no repeated values.
+
+    # Here's what a typical dimension looks like in LookML.
+    # A dimension is a groupable field that can be used to filter query results.
+    # This dimension will be called "Direcci N" in Explore.
+
+  dimension: direcci__n {
+    type: string
+    sql: ${TABLE}.Direcci__n ;;
+  }
+
+  dimension: latitud {
+    type: number
+    sql: ${TABLE}.Latitud ;;
+  }
+
+  dimension: longitud {
+    type: number
+    sql: ${TABLE}.Longitud ;;
+  }
+
+  dimension: nombre {
+    type: string
+    sql: ${TABLE}.Nombre ;;
+  }
+  measure: count {
+    type: count
+  }
+}
