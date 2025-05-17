@@ -1,0 +1,190 @@
+view: comparison {
+  sql_table_name: `carlos-avendano-sandbox.sports_movements_dataset.comparison` ;;
+
+  dimension: age_bokken {
+    #required_access_grants: [access_test]
+    type: number
+    sql: ${TABLE}.Age_bokken ;;
+  }
+  dimension: age_shikko {
+    #required_access_grants: [access_test]
+    type: number
+    sql: ${TABLE}.Age_shikko ;;
+  }
+
+  dimension: gender_bokken {
+    #required_access_grants: [access_test]
+    type: string
+    sql: ${TABLE}.Gender_bokken ;;
+  }
+  dimension: gender_shikko {
+    #required_access_grants: [access_test]
+    type: string
+    sql: ${TABLE}.Gender_shikko ;;
+  }
+  dimension: capturas_bokken {
+    type: number
+    sql: ${TABLE}.capturas_bokken ;;
+  }
+  dimension: capturas_shikko {
+    type: number
+    sql: ${TABLE}.capturas_shikko ;;
+  }
+  dimension: direccion_bokken {
+    type: string
+    sql: ${TABLE}.Direccion_bokken ;;
+  }
+  dimension: direccion_shikko {
+    type: string
+    sql: ${TABLE}.Direccion_shikko ;;
+  }
+  dimension: dojo_bokken {
+    type: string
+    sql: ${TABLE}.dojo_bokken ;;
+  }
+  dimension: dojo_shikko {
+    type: string
+    sql: ${TABLE}.dojo_shikko ;;
+  }
+  dimension: experience_bokken {
+    type: number
+    sql: ${TABLE}.Experience_bokken ;;
+  }
+  dimension: experience_shikko {
+    type: number
+    sql: ${TABLE}.Experience_shikko ;;
+  }
+
+  dimension: height_bokken {
+    type: number
+    sql: ${TABLE}.Height_bokken ;;
+  }
+  dimension: height_shikko {
+    type: number
+    sql: ${TABLE}.Height_shikko ;;
+  }
+  dimension: kyu_dan_bokken {
+    type: number
+    sql: ${TABLE}.Kyu_Dan_bokken ;;
+  }
+  dimension: kyu_dan_shikko {
+    type: number
+    sql: ${TABLE}.Kyu_Dan_shikko ;;
+  }
+  dimension: latitud_bokken {
+    type: number
+    sql: ${TABLE}.Latitud_bokken ;;
+  }
+  dimension: latitud_shikko {
+    type: number
+    sql: ${TABLE}.Latitud_shikko ;;
+  }
+  dimension: longitud_bokken {
+    type: number
+    sql: ${TABLE}.Longitud_bokken ;;
+  }
+  dimension: longitud_shikko {
+    type: number
+    sql: ${TABLE}.Longitud_shikko ;;
+  }
+  dimension: name_bokken {
+    type: string
+    sql: ${TABLE}.Name_bokken ;;
+  }
+  dimension: name_shikko {
+    type: string
+    sql: ${TABLE}.Name_shikko ;;
+  }
+  dimension: nivel_expertise_bokken {
+    type: string
+    sql: ${TABLE}.nivel_expertise_bokken ;;
+  }
+  dimension: nivel_expertise_shikko {
+    type: string
+    sql: ${TABLE}.nivel_expertise_shikko ;;
+  }
+
+  dimension: other_shikko {
+    type: string
+    sql: ${TABLE}.Other_shikko ;;
+  }
+  dimension: presencia {
+    type: string
+    sql: ${TABLE}.presencia ;;
+  }
+  dimension: stddev_accx_bokken {
+    type: number
+    sql: ${TABLE}.stddev_accx_bokken ;;
+  }
+  dimension: stddev_accx_shikko {
+    type: number
+    sql: ${TABLE}.stddev_accx_shikko ;;
+  }
+  dimension: stddev_accy_bokken {
+    type: number
+    sql: ${TABLE}.stddev_accy_bokken ;;
+  }
+  dimension: stddev_accy_shikko {
+    type: number
+    sql: ${TABLE}.stddev_accy_shikko ;;
+  }
+  dimension: stddev_accz_bokken {
+    type: number
+    sql: ${TABLE}.stddev_accz_bokken ;;
+  }
+  dimension: stddev_accz_shikko {
+    type: number
+    sql: ${TABLE}.stddev_accz_shikko ;;
+  }
+  dimension: stddev_magnitude_bokken {
+    type: number
+    sql: ${TABLE}.stddev_magnitude_bokken ;;
+  }
+  dimension: stddev_magnitude_shikko {
+    type: number
+    sql: ${TABLE}.stddev_magnitude_shikko ;;
+  }
+  dimension: var_accx_bokken {
+    type: number
+    sql: ${TABLE}.var_accx_bokken ;;
+  }
+  dimension: var_accx_shikko {
+    type: number
+    sql: ${TABLE}.var_accx_shikko ;;
+  }
+  dimension: var_accy_bokken {
+    type: number
+    sql: ${TABLE}.var_accy_bokken ;;
+  }
+  dimension: var_accy_shikko {
+    type: number
+    sql: ${TABLE}.var_accy_shikko ;;
+  }
+  dimension: var_accz_bokken {
+    type: number
+    sql: ${TABLE}.var_accz_bokken ;;
+  }
+  dimension: var_accz_shikko {
+    type: number
+    sql: ${TABLE}.var_accz_shikko ;;
+  }
+  dimension: var_magnitude_bokken {
+    type: number
+    sql: ${TABLE}.var_magnitude_bokken ;;
+  }
+  dimension: var_magnitude_shikko {
+    type: number
+    sql: ${TABLE}.var_magnitude_shikko ;;
+  }
+  dimension: weight_bokken {
+    type: number
+    sql: ${TABLE}.Weight_bokken ;;
+  }
+  dimension: weight_shikko {
+    type: number
+    sql: ${TABLE}.Weight_shikko ;;
+  }
+  measure: count {
+    type: count
+  }
+}
