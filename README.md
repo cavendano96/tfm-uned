@@ -27,3 +27,5 @@ En el presente repositorio podemos encontrar los siguientes archivos:
 - **shikko_dnn_model.sql**: consulta sql que crea el modelo de DNN en BQML
 - **shikko_tree_model.sql**: consulta sql que crea el modelo de boosted trees en BQML
 - **tfm_looker_conversational_analytics.mp4**: video donde se muestra el funcionamiento de los agentes conversacionales en Looker
+- **tfm_looker_visualization_assitant.mp4**: video donde se muestra el funcionamiento del asistente de visualización en Looker
+- **tfm_looker_lookml_assitant.mp4**: video donde se muestra el funcionamiento del asistente de modelado LookML en Looker
