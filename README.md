@@ -26,3 +26,4 @@ En el presente repositorio podemos encontrar los siguientes archivos:
 - **shikko_features.sql**: consulta sql que crea la tabla shikko_features, en la que se agrupan los resultados se las series temporales para crear los modelos de ML
 - **shikko_dnn_model.sql**: consulta sql que crea el modelo de DNN en BQML
 - **shikko_tree_model.sql**: consulta sql que crea el modelo de boosted trees en BQML
+- **tfm_looker_conversational_analytics.mp4**: video donde se muestra el funcionamiento de los agentes conversacionales en Looker
