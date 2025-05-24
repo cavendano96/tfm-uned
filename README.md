@@ -24,5 +24,5 @@ En el presente repositorio podemos encontrar los siguientes archivos:
 - **tfm_looker_explore.mp4**: video donde se muestra el funcionamiento en Looker del explore, confirmando que el coste de la consulta es el mismo que desde BigQuery  
 - **tfm_looker_visualizacion.mp4**: video donde se muestra el funcionamiento en Looker del dashboard creado con los datos de BigQuery
 - **shikko_features.sql**: consulta sql que crea la tabla shikko_features, en la que se agrupan los resultados se las series temporales para crear los modelos de ML
-- **shikko_dnn_model**: consulta sql que crea el modelo de DNN en BQML
-- **shikko_tree_model**: consulta sql que crea el modelo de boosted trees en BQML
+- **shikko_dnn_model.sql**: consulta sql que crea el modelo de DNN en BQML
+- **shikko_tree_model.sql**: consulta sql que crea el modelo de boosted trees en BQML
