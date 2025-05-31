@@ -1,0 +1,10 @@
+CREATE OR REPLACE MODEL `carlos-avendano-sandbox.sports_eu.shikko_tree_model`
+OPTIONS(
+  model_type='BOOSTED_TREE_CLASSIFIER',
+  input_label_cols=['expertise_'],
+  data_split_method='AUTO_SPLIT',
+  max_iterations=50
+) AS
+SELECT
+  *
+FROM `carlos-avendano-sandbox.sports_eu.shikko_features`;
